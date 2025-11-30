@@ -78,7 +78,22 @@
     /* small helpers */
     .muted{color:var(--muted);font-size:0.9rem}
     .small{font-size:0.85rem;color:var(--muted)}
-    footer{margin-top:18px;color:var(--muted);font-size:0.9rem;text-align:center}
+    footer{
+        position: fixed;
+        bottom: 20px;
+        left: 40%;
+        margin-top:18px;
+        color:var(--muted);
+        font-size:0.9rem;
+        text-align:center;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        gap:8px ;
+        font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        font-size: 1.2rem;
+        font-weight: 200;
+    }
 
     /* responsive */
     @media (max-width:640px){
@@ -109,7 +124,7 @@
       <!-- cards injected by JS -->
     </section>
 
-    <footer>
+    <footer >
       Projects served from my repository <a href="https://github.com/Mh-NOUHICoder/JavaScript30">GitHub-repo</a>.
     </footer>
   </div>
@@ -130,6 +145,7 @@
 
   <script>
     // manifest: add more projects here
+    const github = 'https://github.com/Mh-NOUHICoder/JavaScript30/tree/main';
     const projects = [
       {
         id: 'Clock',
@@ -137,7 +153,7 @@
         desc: 'Analog clock with glassy UI and digital readout.',
         thumb: 'Clock/image.png',
         demo: './Clock/',
-        code: 'Clock/'
+        code: `${github}/Clock/`
       },
       {
         id: 'Drum_kit',
@@ -145,7 +161,7 @@
         desc: 'Play sounds with keyboard or clicks. Includes assets and samples.',
         thumb: 'Drum_kit/assets/image.png',
         demo: './Drum_kit/',
-        code: 'Drum_kit/'
+        code: `${github}/Drum_kit/`
       }
     ];
 
