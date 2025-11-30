@@ -1,0 +1,33 @@
+{
+  "meta": {
+    "site": "JavaScript30",
+    "version": "1.0",
+    "generated": "2025-11-30"
+  },
+  "projects": [
+    {
+      "id": "clock",
+      "title": "JS Clock",
+      "slug": "clock",
+      "description": "Analog clock with glassy UI, numbers and digital readout.",
+      "thumb": "Clock/image.png",
+      "demo": "./Clock/",
+      "code": "./Clock/",
+      "tags": ["clock", "css", "dom", "ui"],
+      "featured": true,
+      "order": 1
+    },
+    {
+      "id": "drum-kit",
+      "title": "Drum Kit",
+      "slug": "drum-kit",
+      "description": "Interactive drum kit playable with keyboard or mouse; includes audio assets.",
+      "thumb": "Drum_kit/assets/image.png",
+      "demo": "./Drum_kit/",
+      "code": "./Drum_kit/",
+      "tags": ["audio", "events", "dom"],
+      "featured": false,
+      "order": 2
+    }
+  ]
+}
