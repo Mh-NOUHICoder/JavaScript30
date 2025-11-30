@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>JavaScript30 — Projects Gallery</title>
+  <style>
+    :root{
+      --bg:#070707;
+      --card:#0f0f10;
+      --muted:#9aa3b2;
+      --accent:#1fb6ae;
+      --accent-2:#ff7a6c;
+      --glass: rgba(255,255,255,0.04);
+      --glass-2: rgba(255,255,255,0.02);
+      --radius:14px;
+      --max-width:1100px;
+    }
+
+    html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;background:linear-gradient(180deg,#000 0%, #0b0b0b 60%);color:#fff;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+    .wrap{max-width:var(--max-width);margin:36px auto;padding:28px;display:flex;flex-direction:column;gap:20px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;align-items:center;gap:14px}
+    .logo{
+      width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#0fb0ff);display:grid;place-items:center;font-weight:700;color:#071017;box-shadow:0 6px 30px rgba(31,182,174,0.12), inset 0 -6px 18px rgba(255,255,255,0.04)
+    }
+    h1{font-size:1.6rem;margin:0}
+    p.lead{margin:0;color:var(--muted);font-size:0.95rem}
+
+    /* search + filters */
+    .controls{display:flex;gap:12px;align-items:center}
+    .search{
+      background:var(--glass);border:1px solid var(--glass-2);padding:10px 12px;border-radius:10px;color:#fff;min-width:220px;outline:none;
+    }
+    .tag-filter{background:transparent;border:1px solid var(--glass-2);padding:8px 10px;border-radius:10px;color:var(--muted);cursor:pointer}
+
+    /* grid */
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-top:6px}
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:var(--radius);overflow:hidden;border:1px solid rgba(255,255,255,0.04);
+      box-shadow: 0 8px 30px rgba(2,6,23,0.6);
+      transition:transform .22s ease, box-shadow .22s ease;
+      display:flex;flex-direction:column;
+    }
+    .card:hover{transform:translateY(-8px);box-shadow:0 18px 50px rgba(2,6,23,0.8)}
+    .thumb{
+      height:160px;background:#111;background-size:cover;background-position:center;border-bottom:1px solid rgba(255,255,255,0.03);
+      display:flex;align-items:flex-end;padding:12px;
+    }
+    .thumb .tag{background:rgba(0,0,0,0.45);padding:6px 10px;border-radius:999px;font-size:12px;color:var(--muted);backdrop-filter:blur(6px)}
+    .card-body{padding:14px;display:flex;flex-direction:column;gap:10px;flex:1}
+    .title{font-size:1.05rem;margin:0;color:#fff}
+    .desc{color:var(--muted);font-size:0.92rem;margin:0;flex:1}
+    .meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .btn-row{display:flex;gap:8px;margin-top:8px}
+    .btn{
+      display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);color:#fff;text-decoration:none;font-weight:600;font-size:0.92rem;cursor:pointer;
+      transition:transform .12s ease, box-shadow .12s ease;
+    }
+    .btn:active{transform:translateY(1px)}
+    .btn.ghost{background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.03)}
+    .btn.live{background:linear-gradient(90deg,var(--accent),#0fb0ff);color:#071017;border:none}
+    .btn.code{background:linear-gradient(90deg,#6b6bff,#9b7aff);border:none}
+
+    /* modal preview */
+    .modal{
+      position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0.8));z-index:1200;padding:28px;
+    }
+    .modal.open{display:flex}
+    .modal-card{width:100%;max-width:1100px;height:80vh;background:#000;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,0.04);box-shadow:0 30px 80px rgba(0,0,0,0.8);display:flex;flex-direction:column}
+    .modal-head{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent)}
+    .modal-title{font-weight:700}
+    .modal-iframe{flex:1;border:0;background:#fff}
+    .close{background:transparent;border:0;color:var(--muted);font-weight:700;padding:8px 12px;border-radius:8px;cursor:pointer}
+
+    /* small helpers */
+    .muted{color:var(--muted);font-size:0.9rem}
+    .small{font-size:0.85rem;color:var(--muted)}
+    footer{margin-top:18px;color:var(--muted);font-size:0.9rem;text-align:center}
+
+    /* responsive */
+    @media (max-width:640px){
+      .thumb{height:120px}
+      .modal-card{height:86vh}
+      .brand h1{font-size:1.1rem}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap" role="main">
+    <header>
+      <div class="brand">
+        <div class="logo">JS</div>
+        <div>
+          <h1>JavaScript30 — Gallery</h1>
+          <p class="lead">Browse demos. Click Live to preview or Open to open the project folder.</p>
+        </div>
+      </div>
+
+      <div class="controls" aria-hidden="false">
+        <input id="search" class="search" placeholder="Search projects (title, tag)..." />
+        <button id="reset" class="tag-filter">Reset</button>
+      </div>
+    </header>
+
+    <section id="grid" class="grid" aria-live="polite">
+      <!-- cards injected by JS -->
+    </section>
+
+    <footer>
+      Projects served from this repository. Deploy to Netlify or Vercel for live hosting.
+    </footer>
+  </div>
+
+  <!-- modal preview -->
+  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-card" role="document">
+      <div class="modal-head">
+        <div class="modal-title" id="modalTitle">Preview</div>
+        <div>
+          <button id="openFull" class="btn ghost">Open full</button>
+          <button id="closeModal" class="close">Close</button>
+        </div>
+      </div>
+      <iframe id="previewFrame" class="modal-iframe" title="Project preview"></iframe>
+    </div>
+  </div>
+
+  <script>
+    // manifest: add more projects here
+    const projects = [
+      {
+        id: 'Clock',
+        title: 'JS Clock',
+        desc: 'Analog clock with glassy UI and digital readout.',
+        thumb: 'Clock/image.png',
+        demo: './Clock/',
+        code: 'Clock/'
+      },
+      {
+        id: 'Drum_kit',
+        title: 'Drum Kit',
+        desc: 'Play sounds with keyboard or clicks. Includes assets and samples.',
+        thumb: 'Drum_kit/assets/image.png',
+        demo: './Drum_kit/',
+        code: 'Drum_kit/'
+      }
+    ];
+
+    const grid = document.getElementById('grid');
+    const search = document.getElementById('search');
+    const reset = document.getElementById('reset');
+    const modal = document.getElementById('modal');
+    const previewFrame = document.getElementById('previewFrame');
+    const modalTitle = document.getElementById('modalTitle');
+    const openFull = document.getElementById('openFull');
+    const closeModal = document.getElementById('closeModal');
+
+    function createCard(p){
+      const el = document.createElement('article');
+      el.className = 'card';
+      el.innerHTML = `
+        <div class="thumb" style="background-image:url('${p.thumb}');">
+          <div class="tag">${p.id}</div>
+        </div>
+        <div class="card-body">
+          <div>
+            <h3 class="title">${p.title}</h3>
+            <p class="desc">${p.desc}</p>
+          </div>
+          <div class="meta">
+            <div class="small">Folder: <span class="muted">${p.code}</span></div>
+            <div style="flex:1"></div>
+          </div>
+          <div class="btn-row">
+            <a class="btn live" href="${p.demo}" target="_blank" rel="noopener">Live</a>
+            <button class="btn code" data-code="${p.code}">Code</button>
+            <button class="btn ghost" data-preview="${p.demo}">Preview</button>
+          </div>
+        </div>
+      `;
+      // fallback if image missing
+      const img = new Image();
+      img.src = p.thumb;
+      img.onerror = () => {
+        el.querySelector('.thumb').style.background = 'linear-gradient(180deg,#0b0b0b,#111)';
+        el.querySelector('.thumb').innerHTML = '<div class="tag">no image</div>';
+      };
+
+      // code button opens folder on GitHub if repo remote; here it opens relative path
+      el.querySelector('.btn.code').addEventListener('click', e=>{
+        const path = e.currentTarget.dataset.code;
+        // open code in new tab (relative)
+        window.open(path, '_blank', 'noopener');
+      });
+
+      // preview button opens modal with iframe
+      el.querySelector('.btn.ghost').addEventListener('click', e=>{
+        const url = e.currentTarget.dataset.preview;
+        openPreview(url, p.title);
+      });
+
+      return el;
+    }
+
+    function render(list){
+      grid.innerHTML = '';
+      if(!list.length){
+        grid.innerHTML = '<div class="muted" style="padding:20px">No projects found.</div>';
+        return;
+      }
+      list.forEach(p => grid.appendChild(createCard(p)));
+    }
+
+    function openPreview(url, title){
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden','false');
+      modalTitle.textContent = title;
+      previewFrame.src = url;
+      openFull.onclick = ()=> window.open(url, '_blank', 'noopener');
+    }
+
+    function closePreview(){
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden','true');
+      previewFrame.src = 'about:blank';
+    }
+
+    // search/filter
+    function filter(q){
+      q = (q||'').trim().toLowerCase();
+      if(!q) return projects;
+      return projects.filter(p => (p.title + ' ' + p.desc + ' ' + p.id).toLowerCase().includes(q));
+    }
+
+    search.addEventListener('input', ()=> render(filter(search.value)));
+    reset.addEventListener('click', ()=> { search.value=''; render(projects); });
+
+    // modal close handlers
+    closeModal.addEventListener('click', closePreview);
+    modal.addEventListener('click', (e)=> { if(e.target === modal) closePreview(); });
+    document.addEventListener('keydown', (e)=> { if(e.key === 'Escape') closePreview(); });
+
+    // initial render
+    render(projects);
+  </script>
+</body>
+</html>
